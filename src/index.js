@@ -20,19 +20,20 @@ loadMoreBtn.addEventListener("click", handleLoadMoreClickBtn);
 loadMoreBtn.classList.add("is-hidden");
 
 let searchQuery = "";
-let page = 1;
+let page = '';
 const per_page = 40;
 
 function handleSearchImage(event) {
   event.preventDefault();
 
   searchQuery = event.currentTarget.elements.searchQuery.value.trim();
-  page = 1;
+  
   if (!searchQuery) {
     galleryEl.innerHTML = "";
   }
 
   if (searchQuery) {
+
     return query(searchQuery).then(({ data }) => {
       // console.log(data);
 
@@ -58,7 +59,7 @@ function handleSearchImage(event) {
 }
 
 function handleLoadMoreClickBtn() {
-  page += 1;
+
   return query(searchQuery).then(({ data }) => {
     renderGallery(data);
     galleryEl.insertAdjacentHTML("beforeend", images);
