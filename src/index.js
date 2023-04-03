@@ -44,7 +44,7 @@ function handleSearchImage(event) {
       }
       Notify.success(`Hooray! We found ${data.totalHits} images.`);
       renderGallery(data);
-      
+
       galleryEl.innerHTML = images;
       lightbox.refresh();
 
