@@ -1,4 +1,3 @@
-let searchQuery = "";
 let page = 1;
 const per_page = 40;
 
