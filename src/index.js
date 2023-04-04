@@ -34,7 +34,8 @@ function handleSearchImage(event) {
 
   if (searchQuery) {
 
-    return query(searchQuery).then(({ data }) => {
+    return query(searchQuery)
+    .then(({ data }) => {
       // console.log(data);
 
       if (data.totalHits === 0) {
@@ -43,6 +44,7 @@ function handleSearchImage(event) {
         );
         return;
       }
+
       Notify.success(`Hooray! We found ${data.totalHits} images.`);
       renderGallery(data);
 

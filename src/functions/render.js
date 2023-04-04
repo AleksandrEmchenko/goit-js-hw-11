@@ -1,8 +1,8 @@
-export function renderGallery(images) {
-  return (images = images.map((image) => {
+export function renderGallery(data) {
+  return (images = data.hits
+    .map((image) => {
       return `<div class="photo-card">
-  
-          <a class="gallery__item" href="${image.largeImageURL}">
+            <a class="gallery__item" href="${image.largeImageURL}">
             <img class="gallery__image" src="${image.largeImageURL}" alt="${image.tags}" loading="lazy" width=300 height=200/>
           </a>
   
