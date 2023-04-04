@@ -1,5 +1,5 @@
 export function renderGallery(data) {
-  return (images = data.hits
+  return (images = data
     .map((image) => {
       return `<div class="photo-card">
   
