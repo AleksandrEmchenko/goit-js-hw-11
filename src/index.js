@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { renderGallery } from "./functions/render";
+import { renderGallery } from "./functions/render";
 import { smoothScroll } from "./functions/scroll";
 
 import { Notify } from "notiflix/build/notiflix-notify-aio";
@@ -20,9 +20,10 @@ searchForm.addEventListener("submit", handleSearchImage);
 loadMoreBtn.addEventListener("click", handleLoadMoreClickBtn);
 loadMoreBtn.classList.add("is-hidden");
 
+const per_page = 40;
 let searchQuery = "";
 let startpage = 1;
-const per_page = 40;
+let images = '';
 let page;
 
 
@@ -91,31 +92,3 @@ async function handleLoadMoreClickBtn() {
   });
 }
 
-let images;
-function renderGallery(data) {
-  return (images = data.hits
-    .map((image) => {
-      return `<div class="photo-card">
-            <a class="gallery__item" href="${image.largeImageURL}">
-            <img class="gallery__image" src="${image.largeImageURL}" alt="${image.tags}" loading="lazy" width=300 height=200/>
-          </a>
-  
-          <div class="info">
-            <p class="info-item">
-              <b>Likes </b>${image.likes}
-            </p>
-            <p class="info-item">
-              <b>Views </b>${image.views}
-            </p>
-            <p class="info-item">
-              <b>Comments </b>${image.comments}
-            </p>
-            <p class="info-item">
-              <b>Downloads </b>${image.downloads}
-            </p>
-          </div>
-        </div>
-          `;
-    })
-    .join(""));
-}
