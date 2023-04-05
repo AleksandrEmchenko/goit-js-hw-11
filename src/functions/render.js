@@ -1,5 +1,5 @@
 export function renderGallery(data) {
-  return (images = array.hits
+  const images = data.hits
     .map((image) => {
       return `<div class="photo-card">
             <a class="gallery__item" href="${image.largeImageURL}">
@@ -23,5 +23,5 @@ export function renderGallery(data) {
         </div>
           `;
     })
-    .join(""));
+    .join("");
 }
