@@ -1,7 +1,5 @@
 import axios from "axios";
-import { renderGallery } from "./functions/render";
 import { smoothScroll } from "./functions/scroll";
-
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 import SimpleLightbox from "simplelightbox";
