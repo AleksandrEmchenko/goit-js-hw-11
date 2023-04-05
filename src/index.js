@@ -91,6 +91,7 @@ async function handleLoadMoreClickBtn() {
   });
 }
 
+let images;
 function renderGallery(data) {
   return (images = data.hits
     .map((image) => {
