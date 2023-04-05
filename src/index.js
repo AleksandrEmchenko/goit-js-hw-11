@@ -1,5 +1,6 @@
-import { query } from "./functions/query";
+import axios from "axios";
 import { renderGallery } from "./functions/render";
+import { smoothScroll } from "./functions/scroll";
 
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 
@@ -20,24 +21,35 @@ loadMoreBtn.addEventListener("click", handleLoadMoreClickBtn);
 loadMoreBtn.classList.add("is-hidden");
 
 let searchQuery = "";
-let page = '';
+let startpage = 1;
 const per_page = 40;
 
-function handleSearchImage(event) {
-  event.preventDefault();
+const API_KEY = "34963790-b238492e38b83f6eacf1dd9bd";
 
+export async function query(searchQuery) {
+  page = startpage;
+  const urlOptions = "image_type=photo&orientation=horizontal&safesearch=true";
+  const url = `https://pixabay.com/api/?key=${API_KEY}&q=${searchQuery}&${urlOptions}&page=${page}&per_page=${per_page}`;
+  const response = await axios.get(url);
+  return response;
+}
+
+async function handleSearchImage(event) {
+  event.preventDefault();
   searchQuery = event.currentTarget.elements.searchQuery.value.trim();
-  
+  search();
+}
+
+function search() {
+  startpage = 1;
   if (!searchQuery) {
     galleryEl.innerHTML = "";
   }
 
   if (searchQuery) {
-
-    return query(searchQuery)
-    .then(({ data }) => {
+  
+    return query(searchQuery).then(({ data }) => {
       // console.log(data);
-
       if (data.totalHits === 0) {
         Notify.failure(
           "Sorry, there are no images matching your search query. Please try again."
@@ -45,39 +57,30 @@ function handleSearchImage(event) {
         return;
       }
 
-      Notify.success(`Hooray! We found ${data.totalHits} images.`);
-      renderGallery(data);
-
-      galleryEl.innerHTML = images;
-      lightbox.refresh();
-
-      if (data.totalHits <= per_page * page) {
-        loadMoreBtn.classList.add("is-hidden");
-      } else {
+      if (data.totalHits !== 0) {
+        Notify.success(`Hooray! We found ${data.totalHits} images.`);
+        renderGallery(data);
+        galleryEl.innerHTML = images;
+        lightbox.refresh();
         loadMoreBtn.classList.remove("is-hidden");
+      }
+      if(data.totalHits < per_page) {
+        loadMoreBtn.classList.add("is-hidden");
       }
     });
   }
 }
 
-function handleLoadMoreClickBtn() {
-
-  return query(searchQuery).then(({ data }) => {
+async function handleLoadMoreClickBtn() {
+  startpage += 1;
+  
+  return await query(searchQuery).then(({ data }) => {
+    
     renderGallery(data);
-    galleryEl.insertAdjacentHTML("beforeend", images);
+    galleryEl.insertAdjacentHTML('beforeend', images);
     lightbox.refresh();
-
-    if (data.totalHits > per_page * page) {
-      loadMoreBtn.classList.remove("is-hidden");
-      lightbox.refresh();
-      const { height: cardHeight } = document
-        .querySelector(".gallery")
-        .firstElementChild.getBoundingClientRect();
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: "smooth",
-      });
-    } else {
+    smoothScroll();
+    if(data.totalHits < per_page * page) {
       loadMoreBtn.classList.add("is-hidden");
       Notify.failure(
         "Sorry, there are no images matching your search query. Please try again."
