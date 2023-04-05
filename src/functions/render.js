@@ -1,4 +1,3 @@
-let images ='';
 export function renderGallery(data) {
   return (images = data.hits
     .map((image) => {
