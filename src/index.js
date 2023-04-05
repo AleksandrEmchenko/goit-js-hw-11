@@ -23,6 +23,7 @@ loadMoreBtn.classList.add("is-hidden");
 let searchQuery = "";
 let startpage = 1;
 const per_page = 40;
+let page;
 
 const API_KEY = "34963790-b238492e38b83f6eacf1dd9bd";
 
